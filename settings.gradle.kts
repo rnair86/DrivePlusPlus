@@ -22,5 +22,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "driveplusplus"
 
-include("common")
+include("dpp-commons")
 include("user-service")

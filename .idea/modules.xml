@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DrivePlusPlus.iml" filepath="$PROJECT_DIR$/DrivePlusPlus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/build-logic/build-logic.main.iml" filepath="$PROJECT_DIR$/.idea/modules/build-logic/build-logic.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/driveplusplus.iml" filepath="$PROJECT_DIR$/.idea/modules/driveplusplus.iml" />
     </modules>
   </component>
 </project>

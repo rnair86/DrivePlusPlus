@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.gradle.api.artifacts.VersionCatalogsExtension
 
 plugins {
     id("io.quarkus")
@@ -12,9 +11,9 @@ repositories {
     mavenLocal()
 }
 
-val quarkusPlatformGroupId: String by project
-val quarkusPlatformArtifactId: String by project
-val quarkusPlatformVersion: String by project
+val quarkusPlatformGroupId: String = project.property("quarkusPlatformGroupId") as String
+val quarkusPlatformArtifactId: String = project.property("quarkusPlatformArtifactId") as String
+val quarkusPlatformVersion: String = project.property("quarkusPlatformVersion") as String
 val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 dependencies {
