@@ -1,0 +1,23 @@
+# Gradle
+.gradle/
+**/build/
+!**/src/**/build/
+
+# Kotlin Compiler & Plugins
+.kotlin/
+*.kotlin_module
+
+# IntelliJ / Android Studio / IDEs
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Logs & Temporary Files
+*.log
+hs_err_pid*
