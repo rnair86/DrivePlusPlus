@@ -5,6 +5,7 @@ kotlin = "2.4.10"
 quarkus = "3.38.0"
 jackson = "2.22.1"
 restassured = "6.0.1"
+jakarta-ws-rs = "4.0.0"
 
 [libraries]
 quarkus-gradle-plugin = { module = "io.quarkus:io.quarkus.gradle.plugin", version.ref = "quarkus" }
@@ -13,6 +14,7 @@ kotlin-allopen-plugin = { module = "org.jetbrains.kotlin:kotlin-allopen", versio
 kotlin-noarg-plugin = { module = "org.jetbrains.kotlin:kotlin-noarg", version.ref = "kotlin" }
 jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 rest-assured = { module = "io.rest-assured:rest-assured", version.ref = "restassured" }
+jakarta-ws-rs-api = { module = "jakarta.ws.rs:jakarta.ws.rs-api", version.ref = "jakarta-ws-rs" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
