@@ -1,0 +1,108 @@
+{
+  "rabbit_version": "3.13",
+  "users": [
+    {
+      "name": "admin_user",
+      "password": "AdminPassword123",
+      "tags": "administrator"
+    },
+    {
+      "name": "application_user",
+      "password": "AppPassword123",
+      "tags": ""
+    },
+    {
+      "name": "appointment_user",
+      "password": "AppointmentPassword123",
+      "tags": ""
+    },
+    {
+      "name": "course_user",
+      "password": "CoursePassword123",
+      "tags": ""
+    },
+    {
+      "name": "test_user",
+      "password": "TestPassword123",
+      "tags": ""
+    },
+    {
+      "name": "payment_user",
+      "password": "PaymentPassword123",
+      "tags": ""
+    },
+    {
+      "name": "notification_user",
+      "password": "NotificationPassword123",
+      "tags": ""
+    },
+    {
+      "name": "preferences_user",
+      "password": "PreferencesPassword123",
+      "tags": ""
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "admin_user",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "application_user",
+      "vhost": "/",
+      "configure": "^dpp-events-out$",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "appointment_user",
+      "vhost": "/",
+      "configure": "^dpp-events-out$",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "course_user",
+      "vhost": "/",
+      "configure": "^dpp-events-out$",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "test_user",
+      "vhost": "/",
+      "configure": "^dpp-events-out$",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "payment_user",
+      "vhost": "/",
+      "configure": "^dpp-events-out$",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "notification_user",
+      "vhost": "/",
+      "configure": "^dpp-events-out$",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "preferences_user",
+      "vhost": "/",
+      "configure": "^dpp-events-out$",
+      "write": ".*",
+      "read": ".*"
+    }
+  ]
+}

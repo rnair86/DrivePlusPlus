@@ -1,0 +1,25 @@
+# docker-compose.yml
+# DOCKERFILE TO CREATE A LOCAL DEVELOPMENT ENVIRONMENT FOR THE DPP PROJECT
+services:
+  postgres:
+    image: postgres:18
+    container_name: dpp_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_MULTIPLE_DATABASES: identity,appointment,course,test,payment,notification,preferences
+    ports: ["5432:5432"]
+    volumes:
+      - ./db-bootstrap:/docker-entrypoint-initdb.d   # bootstrap script runs automatically on first container start
+      - pgdata:/var/lib/postgresql
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: dpp_rabbitmq
+    ports: ["5672:5672", "15672:15672"]
+    volumes:
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
+      - rabbitmq_data:/var/lib/rabbitmq
+volumes:
+  pgdata:
+  rabbitmq_data:
