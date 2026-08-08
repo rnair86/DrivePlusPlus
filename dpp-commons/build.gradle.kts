@@ -10,4 +10,5 @@ dependencies {
     api(enforcedPlatform("$quarkusPlatformGroupId:$quarkusPlatformArtifactId:$quarkusPlatformVersion"))
     api("io.quarkus:quarkus-messaging-rabbitmq")
     api("io.quarkus:quarkus-hibernate-orm-panache-kotlin")
+    api("org.mindrot:jbcrypt:0.4")
 }

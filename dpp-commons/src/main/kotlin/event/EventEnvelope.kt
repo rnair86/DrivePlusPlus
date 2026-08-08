@@ -1,7 +1,7 @@
 package com.rnair.drivingplusplus.commons.event
 
-import java.util.UUID
 import java.time.Instant
+import java.util.UUID
 
 data class EventEnvelope<T>(
     val eventId: UUID = UUID.randomUUID(),
@@ -10,5 +10,5 @@ data class EventEnvelope<T>(
     val version: String = "1.0",
     val source: String,
     val correlationId: String? = null,
-    val payload: T
+    val payload: T,
 )

@@ -6,7 +6,10 @@ data class ProblemDetail(
     val status: Int,
     val detail: String? = null,
     val instance: String? = null,
-    val errors: List<FieldError> = emptyList()
+    val errors: List<FieldError> = emptyList(),
 )
 
-data class FieldError(val field: String, val message: String)
+data class FieldError(
+    val field: String,
+    val message: String,
+)

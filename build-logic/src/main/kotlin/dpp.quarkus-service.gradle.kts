@@ -31,7 +31,9 @@ dependencies {
     implementation("io.quarkus:quarkus-smallrye-openapi")
     implementation("io.quarkus:quarkus-micrometer-registry-prometheus")
     implementation("io.quarkus:quarkus-opentelemetry")
+    implementation("io.quarkus:quarkus-smallrye-jwt")
     implementation("io.quarkus:quarkus-oidc")
+    implementation("io.quarkus:quarkus-elytron-security-jdbc")
     implementation("io.quarkus:quarkus-container-image-jib")   // for building images Helm will deploy
 
     testImplementation("io.quarkus:quarkus-junit5")
