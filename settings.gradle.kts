@@ -19,7 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-
 rootProject.name = "driveplusplus"
 
 include("dpp-commons")

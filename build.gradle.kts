@@ -5,3 +5,34 @@
  * Learn more about Gradle by exploring our Samples at https://docs.gradle.org/9.6.1/samples
  * This project uses @Incubating APIs which are subject to change.
  */
+import org.gradle.api.tasks.Exec
+
+plugins {
+    alias(libs.plugins.spotless) apply false
+}
+
+allprojects {
+    apply(plugin = "com.diffplug.spotless")
+
+    extensions.configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+        kotlin {
+            target("src/**/*.kt")
+            ktlint()
+        }
+
+        kotlinGradle {
+            target("*.gradle.kts")
+            ktlint()
+        }
+    }
+
+    tasks.matching { it.name == "check" }.configureEach {
+        dependsOn("spotlessCheck")
+    }
+}
+
+tasks.register<Exec>("installGitHooks") {
+    group = "verification"
+    description = "Configures Git to use the repository hooks."
+    commandLine("git", "config", "core.hooksPath", ".githooks")
+}
