@@ -19,6 +19,9 @@ class UserBootstrapService(
     private val userAccountRepository: UserAccountRepository,
     private val passwordHasher: PasswordHasher,
 ) {
+
+    //Todo: Inject Defaultpassword from settings for admin
+
     @Transactional
     fun onStart(
         @Observes e: StartupEvent,
