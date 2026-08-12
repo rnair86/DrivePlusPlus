@@ -9,3 +9,5 @@ build
 
 #Ignore security keys
 *.pem
+
+.idea
