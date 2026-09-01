@@ -1,6 +1,7 @@
 package org.rnair.driveplusplus.userservice.infrastructure.repository
 
 import com.rnair.drivingplusplus.commons.paging.PageRequest
+import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -13,6 +14,7 @@ import java.util.UUID
 @QuarkusTest
 class PanacheInstructorProfileRepositoryTest {
     @Test
+    @TestTransaction
     fun savesInstructorProfileAndReturnsTheStoredDomainObject() {
         val repo = PanacheInstructorProfileRepository()
         val userId = UserId(UUID.randomUUID())
@@ -41,6 +43,7 @@ class PanacheInstructorProfileRepositoryTest {
     }
 
     @Test
+    @TestTransaction
     fun findsInstructorProfileByUserIdWhenProfileExists() {
         val repo = PanacheInstructorProfileRepository()
         val userId = UserId(UUID.randomUUID())
@@ -71,6 +74,7 @@ class PanacheInstructorProfileRepositoryTest {
     }
 
     @Test
+    @TestTransaction
     fun returnsNullWhenInstructorProfileDoesNotExist() {
         val repo = PanacheInstructorProfileRepository()
         val nonExistentId = UserId(UUID.randomUUID())
@@ -81,6 +85,7 @@ class PanacheInstructorProfileRepositoryTest {
     }
 
     @Test
+    @TestTransaction
     fun listsAllInstructorProfilesWithFirstPage() {
         val repo = PanacheInstructorProfileRepository()
         val profile1 =
@@ -129,6 +134,7 @@ class PanacheInstructorProfileRepositoryTest {
     }
 
     @Test
+    @TestTransaction
     fun savesInstructorProfileWithMinimalFields() {
         val repo = PanacheInstructorProfileRepository()
         val userId = UserId(UUID.randomUUID())
@@ -157,6 +163,7 @@ class PanacheInstructorProfileRepositoryTest {
     }
 
     @Test
+    @TestTransaction
     fun updatesExistingInstructorProfile() {
         val repo = PanacheInstructorProfileRepository()
         val userId = UserId(UUID.randomUUID())

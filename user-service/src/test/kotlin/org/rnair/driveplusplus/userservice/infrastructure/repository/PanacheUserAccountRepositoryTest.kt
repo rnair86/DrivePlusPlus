@@ -1,4 +1,5 @@
 package org.rnair.driveplusplus.userservice.infrastructure.repository
+import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import java.time.Instant
 import java.util.UUID
@@ -15,8 +16,10 @@ import org.rnair.driveplusplus.userservice.core.model.UserRole
 @QuarkusTest
 class PanacheUserAccountRepositoryTest {
     @Test
+    @TestTransaction
     fun savesUserAccountAndReturnsTheStoredDomainObject() {
         val repo = PanacheUserAccountRepository()
+
         val userId = UserId(UUID.randomUUID())
         val account =
             UserAccount(
@@ -35,6 +38,7 @@ class PanacheUserAccountRepositoryTest {
         assertEquals(AccountStatus.ACTIVE, saved.status)
     }
     @Test
+    @TestTransaction
     fun findsUserAccountByIdWhenAccountExists() {
         val repo = PanacheUserAccountRepository()
         val userId = UserId(UUID.randomUUID())
@@ -62,6 +66,7 @@ class PanacheUserAccountRepositoryTest {
         assertNull(found)
     }
     @Test
+    @TestTransaction
     fun findsUserAccountByEmailWhenAccountExists() {
         val repo = PanacheUserAccountRepository()
         val userId = UserId(UUID.randomUUID())
@@ -87,6 +92,7 @@ class PanacheUserAccountRepositoryTest {
         assertNull(found)
     }
     @Test
+    @TestTransaction
     fun returnsTrueWhenEmailExists() {
         val repo = PanacheUserAccountRepository()
         val account =
@@ -109,6 +115,7 @@ class PanacheUserAccountRepositoryTest {
         assertFalse(exists)
     }
     @Test
+    @TestTransaction
     fun updatesUserAccountStatus() {
         val repo = PanacheUserAccountRepository()
         val userId = UserId(UUID.randomUUID())
@@ -123,13 +130,17 @@ class PanacheUserAccountRepositoryTest {
             )
         repo.save(account)
         repo.updateStatus(userId, AccountStatus.SUSPENDED)
+        repo.flush()
+        repo.getEntityManager().clear()
         val found = repo.findById(userId)
         assertNotNull(found)
         assertEquals(AccountStatus.SUSPENDED, found!!.status)
     }
     @Test
+    @TestTransaction
     fun returnsCorrectCountOfUserAccounts() {
         val repo = PanacheUserAccountRepository()
+        val before = repo.getCount()
         val account1 =
             UserAccount(
                 id = UserId(UUID.randomUUID()),
@@ -151,6 +162,6 @@ class PanacheUserAccountRepositoryTest {
         repo.save(account1)
         repo.save(account2)
         val count = repo.getCount()
-        assertEquals(2, count)
+        assertEquals(before+2, count)
     }
 }
