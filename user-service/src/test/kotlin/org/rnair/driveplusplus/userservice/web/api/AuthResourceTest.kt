@@ -54,4 +54,3 @@ class AuthResourceTest {
         verify(exactly = 1) { useCase.execute("user@example.com", "wrong-password") }
     }
 }
-
