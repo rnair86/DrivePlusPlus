@@ -5,7 +5,6 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
-import java.util.UUID
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -14,6 +13,7 @@ import org.rnair.driveplusplus.userservice.core.exceptions.UserNotFoundException
 import org.rnair.driveplusplus.userservice.core.model.AccountStatus
 import org.rnair.driveplusplus.userservice.core.model.UserId
 import org.rnair.driveplusplus.userservice.web.dtos.UpdateStatusRequest
+import java.util.UUID
 
 class UserResourceTest {
     @Test
@@ -76,4 +76,3 @@ class UserResourceTest {
         verify(exactly = 1) { useCase.execute(UserId(userId), AccountStatus.SUSPENDED) }
     }
 }
-

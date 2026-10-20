@@ -1,21 +1,22 @@
 package org.rnair.driveplusplus.userservice.web.api
+import com.rnair.drivingplusplus.commons.paging.PageRequest
+import com.rnair.drivingplusplus.commons.paging.PageResult
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import java.util.UUID
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.rnair.driveplusplus.userservice.application.usecase.GetInstructorUseCase
-import org.rnair.driveplusplus.userservice.application.usecase.RegisterInstructorUseCase
-import com.rnair.drivingplusplus.commons.paging.PageRequest
-import com.rnair.drivingplusplus.commons.paging.PageResult
 import org.rnair.driveplusplus.userservice.application.usecase.ListInstructorsUseCase
+import org.rnair.driveplusplus.userservice.application.usecase.RegisterInstructorUseCase
 import org.rnair.driveplusplus.userservice.application.usecase.UpdateInstructorProfileUseCase
 import org.rnair.driveplusplus.userservice.core.exceptions.UserNotFoundException
 import org.rnair.driveplusplus.userservice.core.model.InstructorProfile
 import org.rnair.driveplusplus.userservice.core.model.UserId
 import org.rnair.driveplusplus.userservice.web.dtos.RegisterInstructorRequest
+import java.util.UUID
+
 class InstructorResourceTest {
     @Test
     fun registersInstructorAndReturnsCreatedStatusWithResponse() {
@@ -34,9 +35,23 @@ class InstructorResourceTest {
             )
         every { registerUseCase.execute(any()) } returns profile
         val resource = InstructorResource(registerUseCase, getUseCase, mockk(), mockk())
-        val response = resource.register(RegisterInstructorRequest("instructor@example.com", "password", "Riley", "Foster", "555-5001", "CERT-5001", 8, listOf("highway driving"), "CAR-200"))
+        val response =
+            resource.register(
+                RegisterInstructorRequest(
+                    "instructor@example.com",
+                    "password",
+                    "Riley",
+                    "Foster",
+                    "555-5001",
+                    "CERT-5001",
+                    8,
+                    listOf("highway driving"),
+                    "CAR-200",
+                ),
+            )
         assertEquals(201, response.status)
     }
+
     @Test
     fun returnsInstructorProfileWhenGettingById() {
         val userId = UUID.fromString("00000000-0000-0000-0000-000000005002")
@@ -58,6 +73,7 @@ class InstructorResourceTest {
         assertEquals(userId, response.userId)
         assertEquals("Taylor", response.firstName)
     }
+
     @Test
     fun throwsWhenGettingNonExistentInstructor() {
         val userId = UUID.fromString("00000000-0000-0000-0000-000000005003")
@@ -98,7 +114,8 @@ class InstructorResourceTest {
         val updateUseCase = mockk<UpdateInstructorProfileUseCase>()
         val current = InstructorProfile(UserId(userId), "Jordan", "Bennett", "555-5003", "CERT-5003", 5, listOf("basic"), "CAR-202")
         val updated = InstructorProfile(UserId(userId), "Jordan", "Brooks", "555-5004", "CERT-5003", 5, listOf("advanced"), "CAR-203")
-        val request = RegisterInstructorRequest("old@example.com", "old", "Jordan", "Brooks", "555-5004", null, 0, listOf("advanced"), "CAR-203")
+        val request =
+            RegisterInstructorRequest("old@example.com", "old", "Jordan", "Brooks", "555-5004", null, 0, listOf("advanced"), "CAR-203")
         every { getUseCase.execute(UserId(userId)) } returns current
         every { updateUseCase.execute(any()) } returns updated
         val resource = InstructorResource(mockk(), getUseCase, mockk(), updateUseCase)

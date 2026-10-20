@@ -1,8 +1,6 @@
 package org.rnair.driveplusplus.userservice.infrastructure.repository
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
-import java.time.Instant
-import java.util.UUID
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -13,6 +11,9 @@ import org.rnair.driveplusplus.userservice.core.model.AccountStatus
 import org.rnair.driveplusplus.userservice.core.model.UserAccount
 import org.rnair.driveplusplus.userservice.core.model.UserId
 import org.rnair.driveplusplus.userservice.core.model.UserRole
+import java.time.Instant
+import java.util.UUID
+
 @QuarkusTest
 class PanacheUserAccountRepositoryTest {
     @Test
@@ -37,6 +38,7 @@ class PanacheUserAccountRepositoryTest {
         assertEquals(UserRole.STUDENT, saved.role)
         assertEquals(AccountStatus.ACTIVE, saved.status)
     }
+
     @Test
     @TestTransaction
     fun findsUserAccountByIdWhenAccountExists() {
@@ -58,6 +60,7 @@ class PanacheUserAccountRepositoryTest {
         assertEquals("admin@example.com", found.email)
         assertEquals(UserRole.ADMIN, found.role)
     }
+
     @Test
     fun returnsNullWhenUserAccountDoesNotExist() {
         val repo = PanacheUserAccountRepository()
@@ -65,6 +68,7 @@ class PanacheUserAccountRepositoryTest {
         val found = repo.findById(nonExistentId)
         assertNull(found)
     }
+
     @Test
     @TestTransaction
     fun findsUserAccountByEmailWhenAccountExists() {
@@ -85,12 +89,14 @@ class PanacheUserAccountRepositoryTest {
         assertEquals("instructor@example.com", found!!.email)
         assertEquals(UserRole.INSTRUCTOR, found.role)
     }
+
     @Test
     fun returnsNullWhenFindingByEmailAndAccountDoesNotExist() {
         val repo = PanacheUserAccountRepository()
         val found = repo.findByEmail("nonexistent@example.com")
         assertNull(found)
     }
+
     @Test
     @TestTransaction
     fun returnsTrueWhenEmailExists() {
@@ -108,12 +114,14 @@ class PanacheUserAccountRepositoryTest {
         val exists = repo.existsByEmail("existing@example.com")
         assertTrue(exists)
     }
+
     @Test
     fun returnsFalseWhenEmailDoesNotExist() {
         val repo = PanacheUserAccountRepository()
         val exists = repo.existsByEmail("nonexistent@example.com")
         assertFalse(exists)
     }
+
     @Test
     @TestTransaction
     fun updatesUserAccountStatus() {
@@ -136,6 +144,7 @@ class PanacheUserAccountRepositoryTest {
         assertNotNull(found)
         assertEquals(AccountStatus.SUSPENDED, found!!.status)
     }
+
     @Test
     @TestTransaction
     fun returnsCorrectCountOfUserAccounts() {
@@ -162,6 +171,6 @@ class PanacheUserAccountRepositoryTest {
         repo.save(account1)
         repo.save(account2)
         val count = repo.getCount()
-        assertEquals(before+2, count)
+        assertEquals(before + 2, count)
     }
 }

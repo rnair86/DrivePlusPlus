@@ -5,8 +5,6 @@ import com.rnair.drivingplusplus.commons.paging.PageResult
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import java.time.LocalDate
-import java.util.UUID
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -20,6 +18,8 @@ import org.rnair.driveplusplus.userservice.core.model.LicenseStage
 import org.rnair.driveplusplus.userservice.core.model.StudentProfile
 import org.rnair.driveplusplus.userservice.core.model.UserId
 import org.rnair.driveplusplus.userservice.web.dtos.RegisterStudentRequest
+import java.time.LocalDate
+import java.util.UUID
 
 class StudentResourceTest {
     @Test
@@ -313,5 +313,3 @@ class StudentResourceTest {
         verify(exactly = 0) { updateUseCase.execute(any()) }
     }
 }
-
-

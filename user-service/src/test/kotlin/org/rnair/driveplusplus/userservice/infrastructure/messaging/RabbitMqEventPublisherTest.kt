@@ -25,15 +25,16 @@ class RabbitMqEventPublisherTest {
         val publisher = RabbitMqEventPublisher(emitter)
         val payload = "Test Event Payload"
         val eventType = "user.registered"
-        val eventEnvelope = EventEnvelope(
-            eventId = UUID.randomUUID(),
-            eventType = eventType,
-            occurredAt = Instant.now(),
-            version = "1.0",
-            source = "user-service",
-            correlationId = "corr-123",
-            payload = payload,
-        )
+        val eventEnvelope =
+            EventEnvelope(
+                eventId = UUID.randomUUID(),
+                eventType = eventType,
+                occurredAt = Instant.now(),
+                version = "1.0",
+                source = "user-service",
+                correlationId = "corr-123",
+                payload = payload,
+            )
 
         publisher.publish(eventEnvelope)
 
@@ -51,17 +52,19 @@ class RabbitMqEventPublisherTest {
 
         val publisher = RabbitMqEventPublisher(emitter)
         val eventType = "student.registered"
-        val eventEnvelope = EventEnvelope(
-            eventType = eventType,
-            source = "user-service",
-            payload = mapOf("studentId" to "123"),
-        )
+        val eventEnvelope =
+            EventEnvelope(
+                eventType = eventType,
+                source = "user-service",
+                payload = mapOf("studentId" to "123"),
+            )
 
         publisher.publish(eventEnvelope)
 
         val sentMessage = messageSlot.captured
-        val metadata = sentMessage.metadata
-            .get(OutgoingRabbitMQMetadata::class.java)
+        val metadata =
+            sentMessage.metadata
+                .get(OutgoingRabbitMQMetadata::class.java)
 
         assertNotNull(metadata)
         assertEquals(eventType, metadata.get().routingKey)
@@ -75,23 +78,24 @@ class RabbitMqEventPublisherTest {
 
         val publisher = RabbitMqEventPublisher(emitter)
 
-        val envelopes = listOf(
-            EventEnvelope(
-                eventType = "user.created",
-                source = "user-service",
-                payload = "event1",
-            ),
-            EventEnvelope(
-                eventType = "user.updated",
-                source = "user-service",
-                payload = "event2",
-            ),
-            EventEnvelope(
-                eventType = "user.deleted",
-                source = "user-service",
-                payload = "event3",
-            ),
-        )
+        val envelopes =
+            listOf(
+                EventEnvelope(
+                    eventType = "user.created",
+                    source = "user-service",
+                    payload = "event1",
+                ),
+                EventEnvelope(
+                    eventType = "user.updated",
+                    source = "user-service",
+                    payload = "event2",
+                ),
+                EventEnvelope(
+                    eventType = "user.deleted",
+                    source = "user-service",
+                    payload = "event3",
+                ),
+            )
 
         envelopes.forEach { publisher.publish(it) }
 
@@ -106,21 +110,23 @@ class RabbitMqEventPublisherTest {
         every { emitter.send(capture(messageSlot)) } returns mockk()
 
         val publisher = RabbitMqEventPublisher(emitter)
-        val customPayload = mapOf(
-            "studentId" to "uuid-123",
-            "email" to "student@example.com",
-            "firstName" to "John",
-            "lastName" to "Doe",
-        )
-        val eventEnvelope = EventEnvelope(
-            eventId = UUID.randomUUID(),
-            eventType = "student.profile.updated",
-            occurredAt = Instant.now(),
-            version = "1.0",
-            source = "user-service",
-            correlationId = "corr-456",
-            payload = customPayload,
-        )
+        val customPayload =
+            mapOf(
+                "studentId" to "uuid-123",
+                "email" to "student@example.com",
+                "firstName" to "John",
+                "lastName" to "Doe",
+            )
+        val eventEnvelope =
+            EventEnvelope(
+                eventId = UUID.randomUUID(),
+                eventType = "student.profile.updated",
+                occurredAt = Instant.now(),
+                version = "1.0",
+                source = "user-service",
+                correlationId = "corr-456",
+                payload = customPayload,
+            )
 
         publisher.publish(eventEnvelope)
 
@@ -141,17 +147,19 @@ class RabbitMqEventPublisherTest {
 
         val publisher = RabbitMqEventPublisher(emitter)
         val eventType = "instructor.license.verified.event"
-        val eventEnvelope = EventEnvelope(
-            eventType = eventType,
-            source = "user-service",
-            payload = Unit,
-        )
+        val eventEnvelope =
+            EventEnvelope(
+                eventType = eventType,
+                source = "user-service",
+                payload = Unit,
+            )
 
         publisher.publish(eventEnvelope)
 
         val sentMessage = messageSlot.captured
-        val metadata = sentMessage.metadata
-            .get(OutgoingRabbitMQMetadata::class.java)
+        val metadata =
+            sentMessage.metadata
+                .get(OutgoingRabbitMQMetadata::class.java)
 
         assertEquals(eventType, metadata.get().routingKey)
     }
@@ -167,15 +175,16 @@ class RabbitMqEventPublisherTest {
         val eventId = UUID.randomUUID()
         val occurredAt = Instant.parse("2026-08-08T10:30:00Z")
         val correlationId = "trace-789"
-        val eventEnvelope = EventEnvelope(
-            eventId = eventId,
-            eventType = "test.event",
-            occurredAt = occurredAt,
-            version = "2.0",
-            source = "test-source",
-            correlationId = correlationId,
-            payload = "test-payload",
-        )
+        val eventEnvelope =
+            EventEnvelope(
+                eventId = eventId,
+                eventType = "test.event",
+                occurredAt = occurredAt,
+                version = "2.0",
+                source = "test-source",
+                correlationId = correlationId,
+                payload = "test-payload",
+            )
 
         publisher.publish(eventEnvelope)
 
@@ -197,20 +206,21 @@ class RabbitMqEventPublisherTest {
         every { emitter.send(capture(messageSlot)) } returns mockk()
 
         val publisher = RabbitMqEventPublisher(emitter)
-        val eventEnvelope = EventEnvelope(
-            eventType = "metadata.test",
-            source = "user-service",
-            payload = "test",
-        )
+        val eventEnvelope =
+            EventEnvelope(
+                eventType = "metadata.test",
+                source = "user-service",
+                payload = "test",
+            )
 
         publisher.publish(eventEnvelope)
 
         val sentMessage = messageSlot.captured
-        val metadata = sentMessage.metadata
-            .get(OutgoingRabbitMQMetadata::class.java)
+        val metadata =
+            sentMessage.metadata
+                .get(OutgoingRabbitMQMetadata::class.java)
 
         assertNotNull(metadata)
         assertEquals("metadata.test", metadata.get().routingKey)
     }
 }
-
