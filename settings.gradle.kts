@@ -24,3 +24,5 @@ rootProject.name = "driveplusplus"
 include("dpp-commons")
 include("user-service")
 include("course-service")
+include("appointment-service")
+include("test-service")
