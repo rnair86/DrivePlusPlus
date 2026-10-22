@@ -95,6 +95,5 @@ class BatchUseCasesTest {
         assertEquals(expected, result)
     }
 
-    private fun course(id: CourseId) =
-        Course(id, "Theory", "Classroom theory", CourseType.THEORY, 12, BigDecimal("150.00"))
+    private fun course(id: CourseId) = Course(id, "Theory", "Classroom theory", CourseType.THEORY, 12, BigDecimal("150.00"))
 }

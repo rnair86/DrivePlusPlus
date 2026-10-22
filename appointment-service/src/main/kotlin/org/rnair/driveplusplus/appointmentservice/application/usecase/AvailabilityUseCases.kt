@@ -19,8 +19,7 @@ class DefineAvailabilityUseCase(
         dayOfWeek: DayOfWeek,
         start: LocalTime,
         end: LocalTime,
-    ): AvailabilitySlot =
-        repo.save(AvailabilitySlot(AvailabilitySlotId(UUID.randomUUID()), instructorId, dayOfWeek, start, end))
+    ): AvailabilitySlot = repo.save(AvailabilitySlot(AvailabilitySlotId(UUID.randomUUID()), instructorId, dayOfWeek, start, end))
 }
 
 @ApplicationScoped

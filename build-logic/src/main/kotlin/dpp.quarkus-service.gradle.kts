@@ -62,4 +62,8 @@ tasks.withType<KotlinCompile> {
 
 tasks.test {
     systemProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager")
+    // These services do not call OIDC. Leaving the dev service on starts a Keycloak
+    // container per module, and a full parallel build times out waiting for them.
+    systemProperty("quarkus.oidc.tenant-enabled", "false")
+    systemProperty("quarkus.keycloak.devservices.enabled", "false")
 }

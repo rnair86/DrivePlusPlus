@@ -117,7 +117,10 @@ class AppointmentUseCasesTest {
         every { repo.findByAppointmentId(id) } returns null
 
         assertThrows<AppointmentNotFoundException> {
-            RescheduleAppointmentUseCase(repo, publisher).execute(id, Instant.parse("2026-11-03T14:00:00Z"), Instant.parse("2026-11-03T15:00:00Z"))
+            RescheduleAppointmentUseCase(
+                repo,
+                publisher,
+            ).execute(id, Instant.parse("2026-11-03T14:00:00Z"), Instant.parse("2026-11-03T15:00:00Z"))
         }
         verify(exactly = 0) { publisher.publish(any()) }
     }

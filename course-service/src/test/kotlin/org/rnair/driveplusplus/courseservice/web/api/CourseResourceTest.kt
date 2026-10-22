@@ -100,7 +100,11 @@ class CourseResourceTest {
         every { get.execute(CourseId(id)) } returns current
         every { update.execute(any()) } returns updated
 
-        val response = resource(get = get, update = update).update(id, request().copy(title = "Practical", courseType = CourseType.PRACTICAL, price = BigDecimal("200.00")))
+        val response =
+            resource(
+                get = get,
+                update = update,
+            ).update(id, request().copy(title = "Practical", courseType = CourseType.PRACTICAL, price = BigDecimal("200.00")))
 
         assertEquals("Practical", response.title)
         assertEquals("PRACTICAL", response.courseType)

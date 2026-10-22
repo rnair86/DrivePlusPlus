@@ -7,8 +7,12 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
+import org.rnair.driveplusplus.userservice.core.model.AccountStatus
 import org.rnair.driveplusplus.userservice.core.model.InstructorProfile
+import org.rnair.driveplusplus.userservice.core.model.UserAccount
 import org.rnair.driveplusplus.userservice.core.model.UserId
+import org.rnair.driveplusplus.userservice.core.model.UserRole
+import java.time.Instant
 import java.util.UUID
 
 @QuarkusTest
@@ -88,9 +92,13 @@ class PanacheInstructorProfileRepositoryTest {
     @TestTransaction
     fun listsAllInstructorProfilesWithFirstPage() {
         val repo = PanacheInstructorProfileRepository()
+        val userId1 = UserId(UUID.randomUUID())
+        val userId2 = UserId(UUID.randomUUID())
+        saveInstructorAccount(userId1)
+        saveInstructorAccount(userId2)
         val profile1 =
             InstructorProfile(
-                userId = UserId(UUID.randomUUID()),
+                userId = userId1,
                 firstName = "Oliver",
                 lastName = "Brown",
                 phone = "555-3003",
@@ -101,7 +109,7 @@ class PanacheInstructorProfileRepositoryTest {
             )
         val profile2 =
             InstructorProfile(
-                userId = UserId(UUID.randomUUID()),
+                userId = userId2,
                 firstName = "Sophia",
                 lastName = "Davis",
                 phone = "555-3004",
@@ -167,6 +175,7 @@ class PanacheInstructorProfileRepositoryTest {
     fun updatesExistingInstructorProfile() {
         val repo = PanacheInstructorProfileRepository()
         val userId = UserId(UUID.randomUUID())
+        saveInstructorAccount(userId)
         val originalProfile =
             InstructorProfile(
                 userId = userId,
@@ -200,5 +209,18 @@ class PanacheInstructorProfileRepositoryTest {
         assertEquals(5, found.yearsExperience)
         assertEquals(listOf("basic", "advanced"), found.specialties)
         assertEquals("CAR-103", found.vehicleAssigned)
+    }
+
+    private fun saveInstructorAccount(userId: UserId) {
+        PanacheUserAccountRepository().save(
+            UserAccount(
+                id = userId,
+                email = "${userId.value}@example.com",
+                passwordHash = "hashed-password",
+                role = UserRole.INSTRUCTOR,
+                status = AccountStatus.ACTIVE,
+                createdAt = Instant.now(),
+            ),
+        )
     }
 }

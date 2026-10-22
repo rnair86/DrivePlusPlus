@@ -104,5 +104,35 @@
       "write": ".*",
       "read": ".*"
     }
+  ],
+  "exchanges": [
+    {
+      "name": "dpp.events",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "queues": [
+    {
+      "name": "payment.q.enrollment-events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "dpp.events",
+      "vhost": "/",
+      "destination": "payment.q.enrollment-events",
+      "destination_type": "queue",
+      "routing_key": "course.enrollment.created",
+      "arguments": {}
+    }
   ]
 }

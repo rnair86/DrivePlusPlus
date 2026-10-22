@@ -18,6 +18,5 @@ class PanacheAvailabilityRepository :
         return AvailabilitySlotMapper.toDomain(e)
     }
 
-    override fun findForInstructor(instructorId: UUID) =
-        find("instructorId", instructorId).list().map(AvailabilitySlotMapper::toDomain)
+    override fun findForInstructor(instructorId: UUID) = find("instructorId", instructorId).list().map(AvailabilitySlotMapper::toDomain)
 }

@@ -59,8 +59,7 @@ class AppointmentResource(
     fun reschedule(
         @PathParam("id") id: UUID,
         request: RescheduleAppointmentRequest,
-    ): AppointmentResponse =
-        toResponse(rescheduleAppointmentUseCase.execute(AppointmentId(id), request.startAt, request.endAt))
+    ): AppointmentResponse = toResponse(rescheduleAppointmentUseCase.execute(AppointmentId(id), request.startAt, request.endAt))
 
     @DELETE
     @Path("/{id}")

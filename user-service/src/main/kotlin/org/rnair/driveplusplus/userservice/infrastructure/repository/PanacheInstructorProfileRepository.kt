@@ -16,9 +16,15 @@ class PanacheInstructorProfileRepository :
     InstructorProfileRepository,
     PanacheRepositoryBase<InstructorProfileJpaEntity, UUID> {
     override fun save(profile: InstructorProfile): InstructorProfile {
-        val e = InstructorProfileMapper.toEntity(profile)
-        persist(e)
-        return InstructorProfileMapper.toDomain(e)
+        val entity = InstructorProfileMapper.toEntity(profile)
+        val managed =
+            if (findById(entity.userId) == null) {
+                persist(entity)
+                entity
+            } else {
+                getEntityManager().merge(entity)
+            }
+        return InstructorProfileMapper.toDomain(managed)
     }
 
     override fun findByUserId(id: UserId) = findById(id.value)?.let(InstructorProfileMapper::toDomain)

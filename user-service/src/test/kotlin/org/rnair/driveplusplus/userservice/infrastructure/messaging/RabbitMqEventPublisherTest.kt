@@ -38,7 +38,7 @@ class RabbitMqEventPublisherTest {
 
         publisher.publish(eventEnvelope)
 
-        verify(exactly = 1) { emitter.send(any()) }
+        verify(exactly = 1) { emitter.send(any<Message<EventEnvelope<*>>>()) }
         val sentMessage = messageSlot.captured
         assertEquals(eventEnvelope, sentMessage.payload)
     }
@@ -74,7 +74,7 @@ class RabbitMqEventPublisherTest {
     fun publishesMultipleEventEnvelopes() {
         val emitter = mockk<Emitter<EventEnvelope<*>>>()
 
-        every { emitter.send(any()) } returns mockk()
+        every { emitter.send(any<Message<EventEnvelope<*>>>()) } returns mockk()
 
         val publisher = RabbitMqEventPublisher(emitter)
 
@@ -99,7 +99,7 @@ class RabbitMqEventPublisherTest {
 
         envelopes.forEach { publisher.publish(it) }
 
-        verify(exactly = 3) { emitter.send(any()) }
+        verify(exactly = 3) { emitter.send(any<Message<EventEnvelope<*>>>()) }
     }
 
     @Test

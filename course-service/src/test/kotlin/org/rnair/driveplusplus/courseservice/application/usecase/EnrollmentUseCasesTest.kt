@@ -123,7 +123,13 @@ class EnrollmentUseCasesTest {
 
     @Test
     fun withdrawsEnrollmentAndPublishesWithdrawnEvent() {
-        val enrollment = Enrollment(EnrollmentId(UUID.randomUUID()), UUID.randomUUID(), BatchId(UUID.randomUUID()), Instant.parse("2026-10-20T12:00:00Z"))
+        val enrollment =
+            Enrollment(
+                EnrollmentId(UUID.randomUUID()),
+                UUID.randomUUID(),
+                BatchId(UUID.randomUUID()),
+                Instant.parse("2026-10-20T12:00:00Z"),
+            )
         val envelope = slot<EventEnvelope<*>>()
         val repo = mockk<EnrollmentRepository>()
         val publisher = mockk<DomainEventPublisher>()

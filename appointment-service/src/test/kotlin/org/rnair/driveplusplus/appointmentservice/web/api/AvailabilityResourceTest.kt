@@ -21,7 +21,13 @@ class AvailabilityResourceTest {
         val instructorId = UUID.fromString("00000000-0000-0000-0000-000000009401")
         val request = DefineAvailabilityRequest(instructorId, DayOfWeek.WEDNESDAY, LocalTime.of(9, 0), LocalTime.of(12, 0))
         every { define.execute(any(), any(), any(), any()) } returns
-            AvailabilitySlot(AvailabilitySlotId(UUID.randomUUID()), instructorId, DayOfWeek.WEDNESDAY, LocalTime.of(9, 0), LocalTime.of(12, 0))
+            AvailabilitySlot(
+                AvailabilitySlotId(UUID.randomUUID()),
+                instructorId,
+                DayOfWeek.WEDNESDAY,
+                LocalTime.of(9, 0),
+                LocalTime.of(12, 0),
+            )
 
         val response = AvailabilityResource(define, mockk()).define(request)
 

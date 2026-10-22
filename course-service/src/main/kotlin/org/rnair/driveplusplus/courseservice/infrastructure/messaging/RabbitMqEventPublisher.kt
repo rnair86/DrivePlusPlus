@@ -7,5 +7,6 @@ import org.eclipse.microprofile.reactive.messaging.Channel
 import org.eclipse.microprofile.reactive.messaging.Emitter
 
 @Singleton
-class RabbitMqEventPublisher(@Channel("dpp-events-out") emitter: Emitter<EventEnvelope<*>>) :
-    AbstractRabbitMqEventPublisher(emitter)
+class RabbitMqEventPublisher(
+    @Channel("dpp-events-out") emitter: Emitter<EventEnvelope<*>>,
+) : AbstractRabbitMqEventPublisher(emitter)
