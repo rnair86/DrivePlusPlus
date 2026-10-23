@@ -1,66 +1,13 @@
 # course-service
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Courses, class batches, sessions, and enrollment. Listens on port 8081. Swagger UI is at <http://localhost:8081/q/swagger-ui/>.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+HTTP paths:
 
-## Running the application in dev mode
+- `/api/v1/courses`
+- `/api/v1/batches` and `/api/v1/batches/{id}/sessions`
+- `/api/v1/enrollments`
 
-You can run your application in dev mode that enables live coding using:
+Creating a batch publishes `class.batch.created`. Scheduling, rescheduling, or cancelling a session publishes `class.session.scheduled`, `class.session.rescheduled`, or `class.session.cancelled`. Enrolling a student publishes `course.enrollment.created`. Withdrawing that enrollment publishes `course.enrollment.withdrawn`.
 
-```shell script
-./gradlew quarkusDev
-```
-
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
-
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./gradlew build
-```
-
-It produces the `quarkus-run.jar` file in the `build/quarkus-app/` directory. Be aware that it’s not an _über-jar_ as
-the dependencies are copied into the `build/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar build/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./gradlew build -Dquarkus.package.jar.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar build/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./gradlew build -Dquarkus.native.enabled=true
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./gradlew build -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./build/course-service-1.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/gradle-tooling>.
-
-## Related Guides
-
-- Kotlin ([guide](https://quarkus.io/guides/kotlin)): Write your services in Kotlin
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+`course.enrollment.created` is what payment-service uses to raise an invoice. The payload includes the student id, enrollment id, and course price.

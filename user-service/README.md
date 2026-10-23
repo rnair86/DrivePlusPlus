@@ -1,66 +1,37 @@
 # user-service
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Students, instructors, and login. Listens on port 8080. Swagger UI is at <http://localhost:8080/q/swagger-ui/>.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## Default admin
 
-## Running the application in dev mode
+On startup, if the account table is empty, the service inserts one admin:
 
-You can run your application in dev mode that enables live coding using:
+- email: `admin@driveplusplus.com`
+- password: `testPassword`
 
-```shell script
-./gradlew quarkusDev
+Login:
+
+```shell
+curl -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d "{\"email\":\"admin@driveplusplus.com\",\"password\":\"testPassword\"}"
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+A successful login returns a JWT.
 
-## Packaging and running the application
+## JWT signing key
 
-The application can be packaged using:
+Login signs the token with `smallrye.jwt.sign.key.location=privateKey.pem`. That file must be a PKCS#8 PEM private key at `src/main/resources/privateKey.pem`. `*.pem` is gitignored, so a new checkout does not have it. Without the file, login returns 500 (`MalformedURLException: no protocol: privateKey.pem`).
 
-```shell script
-./gradlew build
+Generate one, then rebuild the service:
+
+```shell
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out src/main/resources/privateKey.pem
 ```
 
-It produces the `quarkus-run.jar` file in the `build/quarkus-app/` directory. Be aware that it’s not an _über-jar_ as
-the dependencies are copied into the `build/quarkus-app/lib/` directory.
+Run that command from the `user-service` directory. For the Docker image, rebuild after the file exists:
 
-The application is now runnable using `java -jar build/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./gradlew build -Dquarkus.package.jar.type=uber-jar
+```shell
+./gradlew :user-service:quarkusBuild -x test
+docker compose -f local/docker-compose.services.yml up -d --build user-service
 ```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar build/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./gradlew build -Dquarkus.native.enabled=true
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./gradlew build -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./build/user-service-1.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/gradle-tooling>.
-
-## Related Guides
-
-- Kotlin ([guide](https://quarkus.io/guides/kotlin)): Write your services in Kotlin
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
