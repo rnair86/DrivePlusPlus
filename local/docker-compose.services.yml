@@ -1,0 +1,92 @@
+# Application services. Start local/docker-compose.infrastructure.yml first, then:
+#   ./gradlew quarkusBuild -x test
+#   docker compose -f local/docker-compose.services.yml up -d --build
+name: dpp_local_services
+
+x-java: &java
+  POSTGRES_HOST: dpp_postgres
+  RABBITMQ_HOST: dpp_rabbitmq
+  QUARKUS_OIDC_TENANT_ENABLED: "false"
+  QUARKUS_OTEL_SDK_DISABLED: "true"
+  JAVA_TOOL_OPTIONS: "-Xmx256m -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
+
+x-build: &build
+  context: ..
+  dockerfile: local/Dockerfile.service
+
+services:
+  user-service:
+    image: dpp/user-service
+    build:
+      <<: *build
+      args:
+        SERVICE: user-service
+    environment: *java
+    ports: ["8080:8080"]
+    networks: [infrastructure]
+    restart: on-failure
+  course-service:
+    image: dpp/course-service
+    build:
+      <<: *build
+      args:
+        SERVICE: course-service
+    environment: *java
+    ports: ["8081:8081"]
+    networks: [infrastructure]
+    restart: on-failure
+  appointment-service:
+    image: dpp/appointment-service
+    build:
+      <<: *build
+      args:
+        SERVICE: appointment-service
+    environment: *java
+    ports: ["8082:8082"]
+    networks: [infrastructure]
+    restart: on-failure
+  test-service:
+    image: dpp/test-service
+    build:
+      <<: *build
+      args:
+        SERVICE: test-service
+    environment: *java
+    ports: ["8083:8083"]
+    networks: [infrastructure]
+    restart: on-failure
+  payment-service:
+    image: dpp/payment-service
+    build:
+      <<: *build
+      args:
+        SERVICE: payment-service
+    environment: *java
+    ports: ["8084:8084"]
+    networks: [infrastructure]
+    restart: on-failure
+  notification-preference-service:
+    image: dpp/notification-preference-service
+    build:
+      <<: *build
+      args:
+        SERVICE: notification-preference-service
+    environment: *java
+    ports: ["8085:8085"]
+    networks: [infrastructure]
+    restart: on-failure
+  notification-service:
+    image: dpp/notification-service
+    build:
+      <<: *build
+      args:
+        SERVICE: notification-service
+    environment: *java
+    ports: ["8086:8086"]
+    networks: [infrastructure]
+    restart: on-failure
+
+networks:
+  infrastructure:
+    external: true
+    name: dpp_local_infrastructure_default

@@ -1,5 +1,6 @@
-# docker-compose.yml
+# docker-compose.infrastructure.yml
 # DOCKERFILE TO CREATE A LOCAL DEVELOPMENT ENVIRONMENT FOR THE DPP PROJECT
+name: dpp_local_infrastructure
 services:
   postgres:
     image: postgres:18
@@ -20,6 +21,12 @@ services:
       - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
       - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
       - rabbitmq_data:/var/lib/rabbitmq
+# Named volumes live on the Linux filesystem inside Docker, so chmod works.
+# `docker compose down` keeps them. `docker compose down -v` deletes them.
+# A folder on D: cannot be used: Windows bind mounts stay mode 777 and both
+# Postgres and RabbitMQ refuse to start.
 volumes:
   pgdata:
+    name: local_pgdata
   rabbitmq_data:
+    name: local_rabbitmq_data

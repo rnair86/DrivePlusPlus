@@ -1,0 +1,10 @@
+# Builds one Quarkus fast-jar image. Compose passes SERVICE as the module directory.
+ARG SERVICE
+FROM eclipse-temurin:25-jre
+ARG SERVICE
+WORKDIR /deployments
+COPY ${SERVICE}/build/quarkus-app/lib/ lib/
+COPY ${SERVICE}/build/quarkus-app/*.jar ./
+COPY ${SERVICE}/build/quarkus-app/app/ app/
+COPY ${SERVICE}/build/quarkus-app/quarkus/ quarkus/
+ENTRYPOINT ["java", "-jar", "quarkus-run.jar"]

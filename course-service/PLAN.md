@@ -11,7 +11,7 @@ Complete course-service end to end, following the patterns already established i
 ## Decisions
 
 - The `user.student.registered` consumer is skipped for now. Enrollment trusts the `studentId` it is given.
-- Local development uses the existing database-per-service setup in [local/docker-compose.yml](../local/docker-compose.yml): database `course`, user `course`/`course123`, RabbitMQ user `course_user`. The design's schema-per-service layout is not used locally.
+- Local development uses the existing database-per-service setup in [local/docker-compose.infrastructure.yml](../local/docker-compose.infrastructure.yml): database `course`, user `course`/`course123`, RabbitMQ user `course_user`. The design's schema-per-service layout is not used locally.
 
 ## Steps
 

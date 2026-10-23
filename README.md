@@ -56,10 +56,10 @@ HTTP APIs are under `/api/v1/`.
 From the repo root, start Postgres and RabbitMQ:
 
 ```shell
-docker compose -f local/docker-compose.yml up -d
+docker compose -f local/docker-compose.infrastructure.yml up -d
 ```
 
-Postgres listens on `localhost:5432`. RabbitMQ listens on `5672`, and its management UI is on `http://localhost:15672`. Database names, users, and the broker accounts are in `local/docker-compose.yml` and `local/rabbitmq/definitions.json`. Each service's `application.properties` points at its own database and broker user.
+Postgres listens on `localhost:5432`. RabbitMQ listens on `5672`, and its management UI is on `http://localhost:15672`. Database names, users, and the broker accounts are in `local/docker-compose.infrastructure.yml` and `local/rabbitmq/definitions.json`. Each service's `application.properties` points at its own database and broker user.
 
 Run one service:
 
@@ -76,3 +76,12 @@ Build and test everything:
 ```
 
 The tests use the local Postgres and RabbitMQ from the compose file, so those containers need to be up.
+
+Run every service in Docker, on the same ports, against that Postgres and RabbitMQ:
+
+```shell
+./gradlew quarkusBuild -x test
+docker compose -f local/docker-compose.services.yml up -d --build
+```
+
+`gradlew :user-service:quarkusDev` still uses `localhost`. The containers use the Postgres and RabbitMQ hostnames on the infrastructure network.
