@@ -58,51 +58,51 @@
     {
       "user": "application_user",
       "vhost": "/",
-      "configure": "^dpp-events-out$",
-      "write": ".*",
-      "read": ".*"
+      "configure": "^$",
+      "write": "^dpp\\.events$",
+      "read": "^$"
     },
     {
       "user": "appointment_user",
       "vhost": "/",
-      "configure": "^dpp-events-out$",
-      "write": ".*",
-      "read": ".*"
+      "configure": "^$",
+      "write": "^dpp\\.events$",
+      "read": "^$"
     },
     {
       "user": "course_user",
       "vhost": "/",
-      "configure": "^dpp-events-out$",
-      "write": ".*",
-      "read": ".*"
+      "configure": "^$",
+      "write": "^dpp\\.events$",
+      "read": "^$"
     },
     {
       "user": "test_user",
       "vhost": "/",
-      "configure": "^dpp-events-out$",
-      "write": ".*",
-      "read": ".*"
+      "configure": "^$",
+      "write": "^dpp\\.events$",
+      "read": "^$"
     },
     {
       "user": "payment_user",
       "vhost": "/",
-      "configure": "^dpp-events-out$",
-      "write": ".*",
-      "read": ".*"
+      "configure": "^$",
+      "write": "^dpp\\.events$",
+      "read": "^payment\\.q\\.enrollment-events$"
     },
     {
       "user": "notification_user",
       "vhost": "/",
-      "configure": "^dpp-events-out$",
-      "write": ".*",
-      "read": ".*"
+      "configure": "^$",
+      "write": "^dpp\\.events$",
+      "read": "^$"
     },
     {
       "user": "preferences_user",
       "vhost": "/",
-      "configure": "^dpp-events-out$",
-      "write": ".*",
-      "read": ".*"
+      "configure": "^$",
+      "write": "^dpp\\.events$",
+      "read": "^preferences\\.q\\.user-events$"
     }
   ],
   "exchanges": [
@@ -123,6 +123,13 @@
       "durable": true,
       "auto_delete": false,
       "arguments": {}
+    },
+    {
+      "name": "preferences.q.user-events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
     }
   ],
   "bindings": [
@@ -132,6 +139,22 @@
       "destination": "payment.q.enrollment-events",
       "destination_type": "queue",
       "routing_key": "course.enrollment.created",
+      "arguments": {}
+    },
+    {
+      "source": "dpp.events",
+      "vhost": "/",
+      "destination": "preferences.q.user-events",
+      "destination_type": "queue",
+      "routing_key": "user.student.registered",
+      "arguments": {}
+    },
+    {
+      "source": "dpp.events",
+      "vhost": "/",
+      "destination": "preferences.q.user-events",
+      "destination_type": "queue",
+      "routing_key": "user.instructor.registered",
       "arguments": {}
     }
   ]
