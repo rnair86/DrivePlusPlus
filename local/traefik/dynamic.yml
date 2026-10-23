@@ -1,0 +1,60 @@
+http:
+  routers:
+    preferences:
+      rule: PathRegexp(`^/api/v1/users/[^/]+/preferences`)
+      service: preferences
+      entryPoints: [web]
+      priority: 1000
+    user:
+      rule: PathPrefix(`/api/v1/students`) || PathPrefix(`/api/v1/instructors`) || PathPrefix(`/api/v1/auth`) || PathPrefix(`/api/v1/users`)
+      service: user
+      entryPoints: [web]
+    course:
+      rule: PathPrefix(`/api/v1/courses`) || PathPrefix(`/api/v1/batches`) || PathPrefix(`/api/v1/enrollments`)
+      service: course
+      entryPoints: [web]
+    appointment:
+      rule: PathPrefix(`/api/v1/availability`) || PathPrefix(`/api/v1/appointments`)
+      service: appointment
+      entryPoints: [web]
+    test:
+      rule: PathPrefix(`/api/v1/tests`)
+      service: test
+      entryPoints: [web]
+    payment:
+      rule: PathPrefix(`/api/v1/invoices`)
+      service: payment
+      entryPoints: [web]
+    notification:
+      rule: PathPrefix(`/api/v1/notifications`) || PathPrefix(`/api/v1/templates`)
+      service: notification
+      entryPoints: [web]
+  services:
+    user:
+      loadBalancer:
+        servers:
+          - url: http://user-service:8080
+    course:
+      loadBalancer:
+        servers:
+          - url: http://course-service:8081
+    appointment:
+      loadBalancer:
+        servers:
+          - url: http://appointment-service:8082
+    test:
+      loadBalancer:
+        servers:
+          - url: http://test-service:8083
+    payment:
+      loadBalancer:
+        servers:
+          - url: http://payment-service:8084
+    preferences:
+      loadBalancer:
+        servers:
+          - url: http://notification-preference-service:8085
+    notification:
+      loadBalancer:
+        servers:
+          - url: http://notification-service:8086

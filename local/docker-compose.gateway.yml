@@ -1,0 +1,23 @@
+# Traefik in front of the service containers. Start infrastructure and
+# docker-compose.services.yml first.
+name: dpp_local_gateway
+services:
+  traefik:
+    image: traefik:v3.5
+    container_name: dpp_traefik
+    command:
+      - --api.insecure=true
+      - --providers.file.filename=/etc/traefik/dynamic.yml
+      - --entrypoints.web.address=:8000
+    ports:
+      - "8000:8000"
+      - "8088:8080"
+    volumes:
+      # Restart the container after editing this file. Docker Desktop does not
+      # notify Traefik when a bind-mounted file changes.
+      - ./traefik/dynamic.yml:/etc/traefik/dynamic.yml:ro
+    networks: [infrastructure]
+networks:
+  infrastructure:
+    external: true
+    name: dpp_local_infrastructure_default

@@ -85,3 +85,11 @@ docker compose -f local/docker-compose.services.yml up -d --build
 ```
 
 `gradlew :user-service:quarkusDev` still uses `localhost`. The containers use the Postgres and RabbitMQ hostnames on the infrastructure network.
+
+Put Traefik in front of those containers:
+
+```shell
+docker compose -f local/docker-compose.gateway.yml up -d
+```
+
+API calls go to `http://localhost:8000`. The path is the same path each service already serves, for example `http://localhost:8000/api/v1/auth/login`. Traefik's route list is at `http://localhost:8088/dashboard/`. Swagger UI stays on each service port.
