@@ -14,7 +14,7 @@ class SmallRyeTokenIssuer : TokenIssuer {
         role: UserRole,
     ): String =
         Jwt
-            .issuer("identity-service")
+            .issuer("user-service")
             .subject(userId.value.toString())
             .groups(setOf(role.name))
             .expiresIn(Duration.ofHours(8))

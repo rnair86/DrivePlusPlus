@@ -2,6 +2,8 @@
 
 Courses, class batches, sessions, and enrollment. Listens on port 8081. Swagger UI is at <http://localhost:8081/q/swagger-ui/>.
 
+Calls to `/api/v1` need `Authorization: Bearer` from `POST /api/v1/auth/login` on user-service. Login itself is public. In Swagger UI, open **Authorize** and paste the raw token.
+
 HTTP paths:
 
 - `/api/v1/courses`

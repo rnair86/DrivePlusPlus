@@ -7,8 +7,9 @@ build
 # Ignore Kotlin plugin data
 .kotlin
 
-#Ignore security keys
+#Ignore security keys. The JWT public key is not a secret.
 *.pem
+!dpp-commons/src/main/resources/publicKey.pem
 
 .idea
 *.hprof

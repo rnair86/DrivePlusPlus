@@ -2,6 +2,8 @@
 
 Mock and official test schedules. Listens on port 8083. Swagger UI is at <http://localhost:8083/q/swagger-ui/>.
 
+Calls to `/api/v1` need `Authorization: Bearer` from `POST /api/v1/auth/login` on user-service. Login itself is public. In Swagger UI, open **Authorize** and paste the raw token.
+
 HTTP path: `/api/v1/tests`, including `PUT /{id}` to reschedule, `DELETE /{id}` to cancel, and `POST /{id}/result` to record a result.
 
 Scheduling publishes `test.scheduled`. Rescheduling publishes `test.rescheduled`. Cancelling publishes `test.cancelled`. Recording a result publishes `test.result.published`.

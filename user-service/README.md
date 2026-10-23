@@ -17,7 +17,19 @@ curl -X POST http://localhost:8080/api/v1/auth/login \
   -d "{\"email\":\"admin@driveplusplus.com\",\"password\":\"testPassword\"}"
 ```
 
-A successful login returns a JWT.
+A successful login returns a JWT. Every other `/api/v1` call needs that token:
+
+```shell
+curl http://localhost:8080/api/v1/students -H "Authorization: Bearer <token>"
+```
+
+In Swagger UI, execute login, copy the token, open **Authorize**, and paste the raw token. Do not type `Bearer` in front of it. Swagger adds that prefix.
+
+The other services verify this token with the public key in `dpp-commons`. After creating a new private key, regenerate that public key and rebuild every service:
+
+```shell
+openssl pkey -in src/main/resources/privateKey.pem -pubout -out ../dpp-commons/src/main/resources/publicKey.pem
+```
 
 ## JWT signing key
 

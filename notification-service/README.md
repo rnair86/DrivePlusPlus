@@ -2,6 +2,8 @@
 
 Email notifications, templates, and the delivery log. Listens on port 8086. Swagger UI is at <http://localhost:8086/q/swagger-ui/>.
 
+Calls to `/api/v1` need `Authorization: Bearer` from `POST /api/v1/auth/login` on user-service. Login itself is public. In Swagger UI, open **Authorize** and paste the raw token.
+
 HTTP paths:
 
 - `GET /api/v1/notifications`, with optional `userId`, `eventType`, `from`, and `to`
