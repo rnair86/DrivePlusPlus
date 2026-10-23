@@ -43,9 +43,23 @@ The Document with the Initial System design overview is available at @../driving
 - For the services there have been some deviation to the project strcture and naming conventions from those mentioned in the design document, so please update the system design document to reflect the changes 
 
 
-## Working Documentation
-For each service Create a `PLAN.md`  and document the steps that is required to complete the service as a check list 
-and while working on each of the steps further enrich the document with a brief summary of what was done, any issues encountered and how it was fixed
-once a step is completed and verified to be completed, check it off on the checklist before moving on the the next task  
+# MANDATORY TASK PLANNING PROTOCOL
 
-PLEASE REVIEW PLAN.md before proceeding 
+Before writing, modifying, or executing any code for a new task, you MUST halt execution and complete the planning phase. 
+
+## 1. Create the Plan File
+You must create a new markdown file in the `plans/` directory named `Plan-{Task_Name}.md`, where `{Task_Name}` is a hyphenated, concise summary of the objective.
+
+## 2. Populate the Plan Structure
+The file MUST contain the following exact sections:
+* **Brief Description:** A concise summary of the requested changes and the overall objective.
+* **Implementation Strategy:** A detailed technical explanation of how you will execute the task.
+* **Impacted Services:** A comprehensive list of all modules, APIs, databases, or components affected by this change.
+* **Architecture Justification:** An explanation of why this specific approach/pattern was chosen over alternatives.
+* **Risk Assessment:** Potential edge cases, regressions, security concerns, or bottlenecks to watch out for.
+* **Execution Checklist:** A granular, sequential list of subtasks formatted as markdown checkboxes (`- [ ]`).
+
+## 3. Execution & Tracking
+* **Strict Halt:** Do not proceed to coding until this document is fully generated.
+* **Live Updates:** As you progress through the implementation, you MUST actively update the `Plan-{Task_Name}.md` file to check off (`- [x]`) each subtask.
+* **Completion State:** You may only consider the task complete when all items on the Execution Checklist are verified and marked as done.
