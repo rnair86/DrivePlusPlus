@@ -25,6 +25,7 @@
             <option value="$PROJECT_DIR$/course-service" />
             <option value="$PROJECT_DIR$/dpp-commons" />
             <option value="$PROJECT_DIR$/notification-preference-service" />
+            <option value="$PROJECT_DIR$/notification-service" />
             <option value="$PROJECT_DIR$/payment-service" />
             <option value="$PROJECT_DIR$/test-service" />
             <option value="$PROJECT_DIR$/user-service" />

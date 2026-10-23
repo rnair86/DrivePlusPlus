@@ -95,7 +95,7 @@
       "vhost": "/",
       "configure": "^$",
       "write": "^dpp\\.events$",
-      "read": "^$"
+      "read": "^notif\\.q\\.(user-events|class-events|appointment-events|test-events|payment-events|preference-updates)$"
     },
     {
       "user": "preferences_user",
@@ -130,6 +130,48 @@
       "durable": true,
       "auto_delete": false,
       "arguments": {}
+    },
+    {
+      "name": "notif.q.user-events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "notif.q.class-events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "notif.q.appointment-events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "notif.q.test-events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "notif.q.payment-events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "notif.q.preference-updates",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
     }
   ],
   "bindings": [
@@ -155,6 +197,62 @@
       "destination": "preferences.q.user-events",
       "destination_type": "queue",
       "routing_key": "user.instructor.registered",
+      "arguments": {}
+    },
+    {
+      "source": "dpp.events",
+      "vhost": "/",
+      "destination": "notif.q.user-events",
+      "destination_type": "queue",
+      "routing_key": "user.#",
+      "arguments": {}
+    },
+    {
+      "source": "dpp.events",
+      "vhost": "/",
+      "destination": "notif.q.class-events",
+      "destination_type": "queue",
+      "routing_key": "class.#",
+      "arguments": {}
+    },
+    {
+      "source": "dpp.events",
+      "vhost": "/",
+      "destination": "notif.q.class-events",
+      "destination_type": "queue",
+      "routing_key": "course.enrollment.#",
+      "arguments": {}
+    },
+    {
+      "source": "dpp.events",
+      "vhost": "/",
+      "destination": "notif.q.appointment-events",
+      "destination_type": "queue",
+      "routing_key": "appointment.#",
+      "arguments": {}
+    },
+    {
+      "source": "dpp.events",
+      "vhost": "/",
+      "destination": "notif.q.test-events",
+      "destination_type": "queue",
+      "routing_key": "test.#",
+      "arguments": {}
+    },
+    {
+      "source": "dpp.events",
+      "vhost": "/",
+      "destination": "notif.q.payment-events",
+      "destination_type": "queue",
+      "routing_key": "payment.#",
+      "arguments": {}
+    },
+    {
+      "source": "dpp.events",
+      "vhost": "/",
+      "destination": "notif.q.preference-updates",
+      "destination_type": "queue",
+      "routing_key": "preference.updated",
       "arguments": {}
     }
   ]

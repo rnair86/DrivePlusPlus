@@ -60,83 +60,87 @@ Most domain events carry a user id and no email. Only `user.student.registered` 
 
 ### 1. Module
 
-- [ ] Add `include("notification-service")` to [settings.gradle.kts](../settings.gradle.kts).
-- [ ] Add `build.gradle.kts` with the `dpp.quarkus-service` plugin, `dpp-commons`, and MockK. No scheduler dependency.
+- [x] Add `include("notification-service")` to [settings.gradle.kts](../settings.gradle.kts).
+- [x] Add `build.gradle.kts` with the `dpp.quarkus-service` plugin, `dpp-commons`, and MockK. No scheduler dependency.
 
 ### 2. Domain
 
 Package `core.models`, `core.repository`. No framework imports. Reuse `NotificationChannel` and `NotificationEventType` from `dpp-commons`.
 
-- [ ] `DeliveryStatus`: `SENT`, `FAILED`, `SUPPRESSED_BY_PREFERENCE`.
-- [ ] `Recipient` (`userId`, `address`).
-- [ ] `NotificationLogEntry`, `PreferenceCacheEntry`, `NotificationTemplate`, `SendResult`.
-- [ ] `NotificationTemplate.render` replaces `{{recipient}}` with `recipient.address`.
-- [ ] `NotificationLogRepository`: `existsFor(sourceEventId, userId, channel)`, `save`, `history`.
-- [ ] `PreferenceCacheRepository`: `isEnabled`, `upsert`.
-- [ ] `TemplateRepository`: `find`, `save`, `list`.
-- [ ] `NotificationSender.send`.
+- [x] `DeliveryStatus`: `SENT`, `FAILED`, `SUPPRESSED_BY_PREFERENCE`.
+- [x] `Recipient` (`userId`, `address`).
+- [x] `NotificationLogEntry`, `PreferenceCacheEntry`, `NotificationTemplate`, `SendResult`.
+- [x] `NotificationTemplate.render` replaces `{{recipient}}` with `recipient.address`.
+- [x] `NotificationLogRepository`: `existsFor(sourceEventId, userId, channel)`, `save`, `history`.
+- [x] `PreferenceCacheRepository`: `isEnabled`, `upsert`.
+- [x] `TemplateRepository`: `find`, `save`, `list`.
+- [x] `NotificationSender.send`.
 
 ### 3. Use cases
 
 `@ApplicationScoped` on every use case. `@Transactional` on every mutating `execute`.
 
-- [ ] `ProcessDomainEventUseCase`. For each recipient, EMAIL only, in the order above: existing row stops the channel, a disabled preference logs `SUPPRESSED_BY_PREFERENCE`, a missing template returns, otherwise send, log, and publish `notification.sent` or `notification.failed` with `NotificationOutcomePayload`.
-- [ ] `UpdatePreferenceCacheUseCase`.
-- [ ] `GetNotificationHistoryUseCase`.
-- [ ] `UpdateTemplateUseCase`.
-- [ ] `ListTemplatesUseCase`.
+- [x] `ProcessDomainEventUseCase`. For each recipient, EMAIL only, in the order above: existing row stops the channel, a disabled preference logs `SUPPRESSED_BY_PREFERENCE`, a missing template returns, otherwise send, log, and publish `notification.sent` or `notification.failed` with `NotificationOutcomePayload`.
+- [x] `UpdatePreferenceCacheUseCase`.
+- [x] `GetNotificationHistoryUseCase`.
+- [x] `UpdateTemplateUseCase`.
+- [x] `ListTemplatesUseCase`.
 
 ### 4. Persistence and messaging
 
-- [ ] `NotificationLogJpaEntity` (`notification_log`) extends `BaseJpaEntity`, with `@Column` for `user_id`, `source_event_id`, `event_type`, `provider_message_id`, `sent_at`, `error_message`.
-- [ ] `PreferenceCacheJpaEntity` (`preference_cache`) with composite id `(userId, eventType, channel)`. Query those columns. Do not call Panache `findById` for the composite key.
-- [ ] `TemplateJpaEntity` (`templates`) extends `BaseJpaEntity`, with `@Column` for `event_type`, `subject_template`, `body_template`.
-- [ ] Mappers for the log and the template.
-- [ ] `PanacheNotificationLogRepository`. `save` persists. `history` applies only the filters that were passed.
-- [ ] `PanachePreferenceCacheRepository`. `isEnabled` returns true when the row is missing. `upsert` updates `enabled` when the key exists.
-- [ ] `PanacheTemplateRepository`. `save` updates subject and body when the event type and channel already exist.
-- [ ] `LoggingEmailSender` (stub success), `SmsSender`, and `PushSender`, behind `CompositeNotificationSender`.
-- [ ] `RabbitMqEventPublisher` as `@Singleton` on channel `dpp-events-out`.
-- [ ] `DomainEventListener` with `@Incoming` for `user-events`, `class-events`, `appointment-events`, `test-events`, and `payment-events`, each `@RunOnVirtualThread`. It maps the routing key and calls `ProcessDomainEventUseCase` only for the table above.
-- [ ] `PreferenceUpdatedListener` on `preference-updates`. Concrete payload `userId`, `eventType`, `channel`, `enabled`. Unknown enum names are ignored.
+- [x] `NotificationLogJpaEntity` (`notification_log`) extends `BaseJpaEntity`, with `@Column` for `user_id`, `source_event_id`, `event_type`, `provider_message_id`, `sent_at`, `error_message`.
+- [x] `PreferenceCacheJpaEntity` (`preference_cache`) with composite id `(userId, eventType, channel)`. Query those columns. Do not call Panache `findById` for the composite key.
+- [x] `TemplateJpaEntity` (`templates`) extends `BaseJpaEntity`, with `@Column` for `event_type`, `subject_template`, `body_template`.
+- [x] Mappers for the log and the template.
+- [x] `PanacheNotificationLogRepository`. `save` persists. `history` applies only the filters that were passed.
+- [x] `PanachePreferenceCacheRepository`. `isEnabled` returns true when the row is missing. `upsert` updates `enabled` when the key exists.
+- [x] `PanacheTemplateRepository`. `save` updates subject and body when the event type and channel already exist.
+- [x] `LoggingEmailSender` (stub success), `SmsSender`, and `PushSender`, behind `CompositeNotificationSender`.
+- [x] `RabbitMqEventPublisher` as `@Singleton` on channel `dpp-events-out`.
+- [x] `DomainEventListener` with `@Incoming` for `user-events`, `class-events`, `appointment-events`, `test-events`, and `payment-events`, each `@RunOnVirtualThread`. It maps the routing key and calls `ProcessDomainEventUseCase` only for the table above.
+- [x] `PreferenceUpdatedListener` on `preference-updates`. Concrete payload `userId`, `eventType`, `channel`, `enabled`. Unknown enum names are ignored.
 
 ### 5. REST layer
 
 Every endpoint uses `@RunOnVirtualThread` and maps DTOs in the resource.
 
-- [ ] `GET /api/v1/notifications` with optional `userId`, `eventType`, `from`, `to`. Returns 200.
-- [ ] `GET /api/v1/templates` returns 200.
-- [ ] `PUT /api/v1/templates` saves one template. Body: `eventType`, `channel`, `subjectTemplate`, `bodyTemplate`. Returns 200.
-- [ ] DTOs: `NotificationLogResponse`, `TemplateRequest`, `TemplateResponse`.
-- [ ] `NotificationExceptionMapper : BaseExceptionMapper()` with `@Provider`.
+- [x] `GET /api/v1/notifications` with optional `userId`, `eventType`, `from`, `to`. Returns 200.
+- [x] `GET /api/v1/templates` returns 200.
+- [x] `PUT /api/v1/templates` saves one template. Body: `eventType`, `channel`, `subjectTemplate`, `bodyTemplate`. Returns 200.
+- [x] DTOs: `NotificationLogResponse`, `TemplateRequest`, `TemplateResponse`.
+- [x] `NotificationExceptionMapper : BaseExceptionMapper()` with `@Provider`.
 
 ### 6. Database, config, and broker
 
-- [ ] `V1.0.0__Create_tables.sql` from design section 7.3, without a schema prefix:
+- [x] `V1.0.0__Create_tables.sql` from design section 7.3, without a schema prefix:
   - `notification_log`, unique `(source_event_id, user_id, channel)`
   - `preference_cache`, primary key `(user_id, event_type, channel)`
   - `templates`, unique `(event_type, channel)`
   - `channel` checks `EMAIL`, `SMS`, `PUSH`
   - `status` check `SENT`, `FAILED`, `SUPPRESSED_BY_PREFERENCE`
-- [ ] `V2.0.0__Seed_email_templates.sql` inserts one EMAIL row for each mapped notification type.
-- [ ] `application.properties`:
+- [x] `V2.0.0__Seed_email_templates.sql` inserts one EMAIL row for each mapped notification type.
+- [x] `application.properties`:
   - `jdbc:postgresql://localhost:5432/notification` with `notification` / `notification123`
   - `quarkus.flyway.migrate-at-start=true`
   - `quarkus.http.port=8086`
   - `%test.quarkus.http.test-port=0`
   - outgoing `dpp-events-out` with `notification_user` / `NotificationPassword123`, exchange `dpp.events`, `exchange.declare=false`
   - one incoming channel per queue above, `exchange.declare=false`, `queue.declare=false`
-- [ ] Add the six queues and their bindings to [local/rabbitmq/definitions.json](../local/rabbitmq/definitions.json).
-- [ ] Set `notification_user` read permission to those six queues. Write stays `^dpp\.events$`. Configure stays `^$`.
-- [ ] Apply the same queues, bindings, and permission to the running broker.
+- [x] Add the six queues and their bindings to [local/rabbitmq/definitions.json](../local/rabbitmq/definitions.json).
+- [x] Set `notification_user` read permission to those six queues. Write stays `^dpp\.events$`. Configure stays `^$`.
+- [x] Apply the same queues, bindings, and permission to the running broker.
 
 ### 7. Tests
 
 JUnit 5 and MockK for use cases, mapping, listeners, and resources. `@QuarkusTest` and `@TestTransaction` for repositories, against the local `notification` database.
 
-- [ ] Use case tests: EMAIL send publishes `notification.sent` and stores the provider id; a second pass for the same user and channel publishes nothing; a disabled preference stores `SUPPRESSED_BY_PREFERENCE` and publishes nothing; a missing template stores nothing; a failed send publishes `notification.failed`; two recipients on one event both send; SMS is not attempted; cache upsert then `isEnabled` follows the stored flag; history passes the filters through; template save returns the stored subject and body.
-- [ ] Mapping tests: each routed key in the table produces the right type and recipients; an unmapped key produces nothing; a registration uses the email as the address.
-- [ ] Listener tests: a domain envelope is forwarded to the use case; `preference.updated` is forwarded to the cache use case.
-- [ ] Resource tests: status codes and query or body fields forwarded to the use case.
-- [ ] Repository tests: `existsFor` is per user; history filters out other users and dates; template save updates the same event type and channel; `isEnabled` is true when the cache row is missing.
-- [ ] `./gradlew :notification-service:test`.
+- [x] Use case tests: EMAIL send publishes `notification.sent` and stores the provider id; a second pass for the same user and channel publishes nothing; a disabled preference stores `SUPPRESSED_BY_PREFERENCE` and publishes nothing; a missing template stores nothing; a failed send publishes `notification.failed`; two recipients on one event both send; SMS is not attempted; cache upsert then `isEnabled` follows the stored flag; history passes the filters through; template save returns the stored subject and body.
+- [x] Mapping tests: each routed key in the table produces the right type and recipients; an unmapped key produces nothing; a registration uses the email as the address.
+- [x] Listener tests: a domain envelope is forwarded to the use case; `preference.updated` is forwarded to the cache use case.
+- [x] Resource tests: status codes and query or body fields forwarded to the use case.
+- [x] Repository tests: `existsFor` is per user; history filters out other users and dates; template save updates the same event type and channel; `isEnabled` is true when the cache row is missing.
+- [x] `./gradlew :notification-service:test`.
+
+`./gradlew :notification-service:test` passed: 21 tests, 0 failures, against the local `notification` database.
+
+The running RabbitMQ volume does not reload `definitions.json`. The six `notif.q.*` queues, their bindings, and the `notification_user` read permission were applied through the management API on the running broker.
